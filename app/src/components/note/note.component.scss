@@ -8,17 +8,19 @@
   width: 400px;
   height: 400px;
   border: 2px solid rgba(0, 0, 0, 0.3);
-  text-align: center; }
-  .note .note-header {
+  text-align: center;
+  .note-header {
     height: 25px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3); }
-    .note .note-header button {
-      float: right; }
-  .note .note-text-container {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    button {
+      float: right;
+    }
+  }
+  .note-text-container{
     top: 25px;
     height: 380px;
-    padding: 10px; }
-    .note .note-text-container textarea {
+    padding: 10px;
+    textarea {
       color: #000;
       font-family: "Lucida Handwriting";
       font-weight: bold;
@@ -29,15 +31,7 @@
       border: none;
       width: 100%;
       height: 100%;
-      background: transparent; }
-
-home-component h1 {
-  text-align: center; }
-
-body {
-  background: #b7edb9;
-  position: relative;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0; }
+      background: transparent;
+    }
+  }
+}

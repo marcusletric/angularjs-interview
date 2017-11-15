@@ -1,0 +1,9 @@
+<div class="note" ng-style="{'background-color': noteObj.color, top: noteObj.position.y + 'px', left: noteObj.position.x + 'px'}">
+    <div class="note-header">
+        {{::noteObj.header}}
+        <button ng-click="deleteNote()">X</button>
+    </div>
+    <div class="note-text-container">
+        <textarea ng-model="noteObj.text"></textarea>
+    </div>
+</div>

@@ -1,14 +1,12 @@
 {
-  "name": "fps_game",
-  "description": "Web application for thesis demonstration purpose",
+  "name": "angular_interview",
+  "description": "Interview test application",
   "version": "0.0.1",
   "homepage": "",
   "license": "",
   "private": true,
   "dependencies": {
-    "jquery": "2.1.3",
     "angular": "*",
-    "angular-cookies": "*",
-    "angular-ui-router": "0.2.15"
+    "angular-ui-router": "1.0.0-rc.1"
   }
 }

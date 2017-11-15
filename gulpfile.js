@@ -7,9 +7,17 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var filter = require('gulp-filter');
 var Devutils = require('./dev/devutils.js');
+var karmaServer = require('karma').Server;
+var templateCache = require('gulp-angular-templatecache');
 var appPath = "app/";
 var devutils = new Devutils('./');
+var karmaRunner = new karmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: false,
+    autoWatch: true
+});
 
 gulp.task('browser-sync', function() {
     browserSync({
@@ -27,15 +35,15 @@ gulp.task('server', function(done) {
     }, done);
 });
 
-gulp.task('default', ['devcompile', 'server'], function() {
+gulp.task('default', ['devcompile', 'server', 'unitTest'], function() {
     gulp.watch('styles/*.css', function(file) {
         if (file.type === "changed") {
             reload(file.path);
         }
     });
-    gulp.watch(['./' + appPath + '**/*.html'], ['bs-reload']);
-    gulp.watch(['./' + appPath + '**/*.js'], ['includeSrc', 'bs-reload']);
-    gulp.watch(['./' + appPath + '**/*.scss'], ['sass']);
+    gulp.watch(['./dev/**/*.html'], ['bs-reload']);
+    gulp.watch(['./' + appPath + '**/*.html', './' + appPath + '**/*.js'], ['templateCache', 'bs-reload']);
+    gulp.watch(['./' + appPath + '/*.scss', './' + appPath + '**/*.scss'], ['sass', 'bs-reload']);
 });
 
 gulp.task('bs-reload', function() {
@@ -58,26 +66,41 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('unitTest', function () {
+    karmaRunner.start();
+});
+
+gulp.task('templateCache', function () {
+    return gulp.src(appPath + 'src/**/*.html')
+        .pipe(templateCache({
+            standalone: true
+        }))
+        .pipe(gulp.dest(appPath + 'templateCache'));
+});
+
 gulp.task('includeLib', function(){
-    return gulp.src('./app/bower_components/**/*.min.js')
+    return gulp.src(appPath + 'bower_components/**/*.min.js')
         .pipe(devutils.generateLibIncl());
 });
 
 gulp.task('includeSrc', function(callback) {
-    gulp.src('./app/src/**/*.js')
+    gulp.src([appPath + 'src/**/*.js', '!' + appPath + 'src/**/*.spec.js', appPath + 'templateCache/**/*.js'])
         .pipe(devutils.generateIndex('./app')).on('finish', function () {
             devutils.doInclude('./app', callback);
         });
 });
 
 gulp.task('devscripts', function(cb) {
-    runSequence('includeLib',
+    runSequence(
+        'includeLib',
         'includeSrc',
         cb);
 });
 
 gulp.task('devcompile', function(cb) {
-    runSequence('sass',
+    runSequence(
+        'sass',
+        'templateCache',
         'devscripts',
         cb);
 });
