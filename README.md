@@ -1,11 +1,7 @@
-# FPS game
-Ez a webalkalmazás a szakdolgozatom része, kérlek ne publikáld más néven
-A webapp AngularJS és NodeJS alapokon nyugszik és demonstrációs célokat szolgál.
+# Angularjs-interview
+This application is coding task for interview purposes
 
-This application is part of my thesis, please do not redistribute!
-The web application based on AngularJS and NodeJS, made for demonstration purposes.
-
-## Installation / Telepítés
+## Installation
 1. Download and setup node package manager https://nodejs.org
 2. npm install
-3. npm run
+3. gulp
