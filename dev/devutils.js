@@ -1,3 +1,6 @@
+var isWin = /^win/.test(process.platform);
+var pathSplitter = !isWin ? new RegExp("([^/]+/)", "g") : new RegExp("([^\\]+\\)", "g");
+var trailingSlash = !isWin ? new RegExp("/", "g") : new RegExp("\\", "g");
 var gulp = require('gulp');
 var fileinclude = require('gulp-file-include');
 var Stream = require('stream');
@@ -12,9 +15,9 @@ function Devutils(appPath){
         self.file = fs.createWriteStream(appPath + 'dev/templates/_includes.html');
 
         stream._write = function(file,encoding,callback){
-            var pathParts = file.base.toString().match(/([^\/]+\/)/g);
-            var relativeBase = pathParts[pathParts.length-1].replace(/\//g,'/');
-            self.file.write(genScripTag( relativeBase + file.relative.toString().replace(/\//g,'/')) + '\n');
+            var pathParts = file.base.toString().match(pathSplitter);
+            var relativeBase = pathParts[pathParts.length-1].replace(trailingSlash,'/');
+            self.file.write(genScripTag( relativeBase + file.relative.toString().replace(trailingSlash,'/')) + '\n');
             callback();
         };
 
@@ -28,9 +31,9 @@ function Devutils(appPath){
         self.file = fs.createWriteStream(appPath + 'dev/templates/_lib.html');
 
         stream._write = function(file,encoding,callback){
-            var pathParts = file.base.toString().match(/([^\/]+\/)/g);
-            var relativeBase = pathParts[pathParts.length-1].replace(/\//g,'/');
-            self.file.write(genScripTag( relativeBase + file.relative.toString().replace(/\//g,'/')) + '\n');
+            var pathParts = file.base.toString().match(pathSplitter);
+            var relativeBase = pathParts[pathParts.length-1].replace(trailingSlash,'/');
+            self.file.write(genScripTag( relativeBase + file.relative.toString().replace(trailingSlash,'/')) + '\n');
             callback();
         };
 
