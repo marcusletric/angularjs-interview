@@ -1,5 +1,5 @@
 var isWin = /^win/.test(process.platform);
-var pathSplitter = !isWin ? new RegExp("([^\\/]+\\/)", "g") : new RegExp("([^\\]+\\)", "g");
+var pathSplitter = !isWin ? new RegExp("([^\\/]+\\/)", "g") : new RegExp("([^/\\]+/\\)", "g");
 var trailingSlash = !isWin ? new RegExp("\\/", "g") : new RegExp("\\", "g");
 var gulp = require('gulp');
 var fileinclude = require('gulp-file-include');
